@@ -66,8 +66,6 @@ def crear_csv_comparativo(tiempos_python, tiempos_go, archivo_salida, tamano_mat
             go_tiempo = tiempos_go.get(algoritmo, 'N/A')
             writer.writerow([algoritmo, python_tiempo, go_tiempo])
 
-
-
 # Directorios
 directorio_python = 'tiempos/tiempos_python'
 directorio_go = 'tiempos/tiempos_go'
@@ -85,8 +83,6 @@ os.makedirs(directorio_graficos_go, exist_ok=True)
 os.makedirs(directorio_graficos_comparativos, exist_ok=True)
 os.makedirs(directorio_comparativos, exist_ok=True)
 
-
-
 # Procesar archivos para generar gráficos y CSV comparativos
 for n in tamano_matriz:
     archivo_csv_python = os.path.join(directorio_python, f"tiempos_ejecucion_{n}.csv")
@@ -96,21 +92,17 @@ for n in tamano_matriz:
         tiempos_python = leer_tiempos_csv(archivo_csv_python)
         tiempos_go = leer_tiempos_csv(archivo_csv_go)
 
-
         archivo_salida_python = os.path.join(directorio_graficos_python, f"grafico_python_{n}.png")
         crear_diagrama_barras(tiempos_python, archivo_salida_python, n)
 
         archivo_salida_go = os.path.join(directorio_graficos_go, f"grafico_go_{n}.png")
         crear_diagrama_barras(tiempos_go, archivo_salida_go, n)
 
-
         archivo_comparativo = os.path.join(directorio_comparativos, f"tiempo_comparativo_{n}.csv")
         crear_csv_comparativo(tiempos_python, tiempos_go, archivo_comparativo, n)
 
-
         archivo_grafico_comparativo = os.path.join(directorio_graficos_comparativos, f"grafico_comparativo_{n}.png")
         crear_diagrama_lineal_comparativo(tiempos_python, tiempos_go, n, archivo_grafico_comparativo)
-
 
 # Procesar promedios
 archivo_promedio_python = os.path.join(directorio_python, "tiempos_ejecucion_promedio.csv")
@@ -122,7 +114,14 @@ if os.path.exists(archivo_promedio_python) and os.path.exists(archivo_promedio_g
     tiempos_promedio_python = leer_tiempos_csv(archivo_promedio_python)
     tiempos_promedio_go = leer_tiempos_csv(archivo_promedio_go)
 
+    archivo_grafico_python_promedio = os.path.join(directorio_graficos_python, "grafico_python_promedio.png")
+    crear_diagrama_barras(tiempos_promedio_python, archivo_grafico_python_promedio, "Promedio")
+
+    archivo_grafico_go_promedio = os.path.join(directorio_graficos_go, "grafico_go_promedio.png")
+    crear_diagrama_barras(tiempos_promedio_go, archivo_grafico_go_promedio, "Promedio")
+
     crear_csv_comparativo(tiempos_promedio_python, tiempos_promedio_go, archivo_comparativo_promedio, "Promedio")
     crear_diagrama_lineal_comparativo(tiempos_promedio_python, tiempos_promedio_go, "Promedio", archivo_grafico_comparativo_promedio)
+
 
 print("Gráficos de barras, lineales comparativos y promedios generados exitosamente.")
